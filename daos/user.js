@@ -11,11 +11,24 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      validate: {
+        validator: (email) =>
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        message: "Invalid email format",
+      },
     },
     password: {
       type: String,
       required: true,
     },
+    // secQues:{
+    //     type: String,
+    //     required: true,
+    // },
+    // secAns:{
+    //     type: String,
+    //     required: true,
+    // },
     // salt: {
     //   type: String,
     //   required: true,
@@ -30,11 +43,6 @@ const userSchema = new Schema(
     // expire_at: {
     //   type: Number,
     // },
-    isOwner: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
   },
   {
     timestamps: true,
