@@ -16,6 +16,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    // secQues:{
+    //     type: String,
+    //     required: true,
+    // },
+    // secAns:{
+    //     type: String,
+    //     required: true,
+    // },
     // salt: {
     //   type: String,
     //   required: true,
@@ -30,11 +38,6 @@ const userSchema = new Schema(
     // expire_at: {
     //   type: Number,
     // },
-    isOwner: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
   },
   {
     timestamps: true,
