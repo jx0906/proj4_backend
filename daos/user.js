@@ -11,6 +11,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      validate: {
+        validator: (email) =>
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        message: "Invalid email format",
+      },
     },
     password: {
       type: String,
