@@ -84,11 +84,12 @@ async function getOneById(req, res) {
 // Create a recipe
 async function createRecipe(req, res) {
   try {
-    recipe = await recipeModel.createRecipe({
-      ...req.body,
-      user,
-    });
-    res.status(201).json(recipe);
+    data = await recipeModel.createRecipe(
+      req.body
+      // {...req.body,
+      // user,}
+    );
+    res.status(201).json(data);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
@@ -103,7 +104,10 @@ async function updateRecipe(req, res) {
   } else {
     try {
       // insert validation checks?
-      const updatedRecipe = await recipeModel.updateRecipe(req.params.id, req.body);
+      const updatedRecipe = await recipeModel.updateRecipe(
+        req.params.id,
+        req.body
+      );
       res.status(200).json(updatedRecipe);
     } catch (err) {
       res.status(500).json({ errorMsg: err.message });

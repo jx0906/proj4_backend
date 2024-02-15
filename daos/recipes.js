@@ -13,12 +13,12 @@ const recipeSchema = new Schema(
     // },
     category: {
       type: String,
-      enum: ["Pastries", "Biscuits”, “Bread”, “Cakes"],
+      enum: ["Pastries", "Biscuits", "Bread", "Cakes"],
       required: true,
     },
     levelOfDiff: {
       type: String,
-      enum: ["Easy”, “Intermediate”, “Advanced"],
+      enum: ["Easy", "Intermediate", "Advanced"],
       required: true,
     },
     timeRequired: {
