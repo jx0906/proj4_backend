@@ -47,9 +47,9 @@ router.post(
 router.get("/:recpId", recipeController.getOneById);
 
 // @desc    Update a recipe
-// @route   POST /recipe/:id
+// @route   POST /recipe/:id/edit
 // @access  Private (bearer token passed in header)
-router.post("/:recpId", recipeController.updateRecipe);
+router.post("/:recpId/edit", recipeController.updateRecipe);
 
 // @desc    Delete a recipe
 // @route   DELETE /recipe/:id

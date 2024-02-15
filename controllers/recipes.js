@@ -103,6 +103,21 @@ async function createRecipe(req, res) {
   }
 }
 
+async function updateRecipe(req, res) {
+  // Check if the user who made the recipe matches the token user
+  try {
+    // insert validation checks?
+    const updatedRecipe = await recipeModel.updateRecipe(
+      req.params.recpId,
+      req.body
+    );
+    res.status(200).json(updatedRecipe);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+/*WITH USER INFO
 // Update a recipe by ID
 async function updateRecipe(req, res) {
   // Check if the user who made the recipe matches the token user
@@ -122,6 +137,7 @@ async function updateRecipe(req, res) {
     }
   }
 }
+*/
 
 // Delete a recipe by ID
 async function deleteRecipe(req, res) {
