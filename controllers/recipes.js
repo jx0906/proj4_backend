@@ -58,13 +58,17 @@ async function getAllByFilter(req, res) {
 
 // Get one recipe by ID
 async function getOneById(req, res) {
-  //check if user is logged in
+  //check user's identity
   const user = req.user.id;
-  // pull recipes without notes
-  if (!user || user == null) {
+  // if guest user (ie, no account), pull recipes without notes
+  if (!user || user === null) {
     try {
-      const data = await recipeModel.getOneById(req.params.id);
-      res.json(data);
+      const data = await recipeModel.getOneById(req.params.recpId);
+      if (!data || data == "null") {
+        res.json("this recipe does not exist");
+      } else {
+        res.json(data);
+      }
     } catch (err) {
       console.error(err);
       res.status(500).json({ errorMsg: err.message });
@@ -72,8 +76,12 @@ async function getOneById(req, res) {
   } else {
     try {
       // pull recipe with notes created by user
-      const data = await recipeModel.getOneByIdWithNotes(req.params.id);
-      res.json(data);
+      const data = await recipeModel.getOneByIdWithNotes(req.params.recpId);
+      if (!data || data == "null") {
+        res.json("this recipe does not exist");
+      } else {
+        res.json(data);
+      }
     } catch (err) {
       console.error(err);
       res.status(500).json({ errorMsg: err.message });
@@ -98,14 +106,14 @@ async function createRecipe(req, res) {
 // Update a recipe by ID
 async function updateRecipe(req, res) {
   // Check if the user who made the recipe matches the token user
-  const curRecipe = await recipeModel.getOneById(req.params.id);
+  const curRecipe = await recipeModel.getOneById(req.params.recpId);
   if (!curRecipe.user || curRecipe.user != user) {
     return res.status(401).json("Unauthorized");
   } else {
     try {
       // insert validation checks?
       const updatedRecipe = await recipeModel.updateRecipe(
-        req.params.id,
+        req.params.recpId,
         req.body
       );
       res.status(200).json(updatedRecipe);
@@ -119,12 +127,12 @@ async function updateRecipe(req, res) {
 async function deleteRecipe(req, res) {
   // Check if the user who made the recipe matches the token user
   const user = req.user.id;
-  const data = await recipeModel.getOneById(req.params.id);
+  const data = await recipeModel.getOneById(req.params.recpId);
   if (!data.user || data.user != user) {
     return res.status(401).json("Unauthorized");
   } else {
     try {
-      await recipeModel.deleteRecipe(req.params.id);
+      await recipeModel.deleteRecipe(req.params.recpId);
       res.status(200).json("recipe deleted");
     } catch (err) {
       res.status(500).json({ errorMsg: err.message });

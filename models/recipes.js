@@ -27,8 +27,7 @@ async function getAllByFilter(query) {
   var queryFields = ["level of difficulty", "category", "time required"];
   return recipeDao
     .find({
-      levelOfDiff: queryFields.
-      dateTime: {
+      levelOfDiff: queryFields.dateTime: {
         $gte: new Date(startDateTime),
         $lte: new Date(endDateTime),
       },
@@ -41,11 +40,10 @@ async function getAllByFilter(query) {
 }
 */
 
-function getOneById(id) {
-  return recipeDao
-    .find({
-      _id: id,
-    })
+async function getOneById(param) {
+  const data = await recipeDao.findById(param);
+  // One({ _id: param });
+  return data;
 }
 
 function getOneByIdWithNotes(id) {
