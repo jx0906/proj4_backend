@@ -5,7 +5,7 @@ const recipeModel = require("../models/recipes");
 
 module.exports = {
   getAllRecipes,
-  getAllByUserId,
+  getAllByUser,
   // getAllByFilter,
   getOneById,
   createRecipe,
@@ -24,7 +24,7 @@ async function getAllRecipes(req, res) {
 }
 
 // Get all recipes created by user
-async function getAllByUserId(req, res) {
+async function getAllByUser(req, res) {
   try {
     // check if user has self-created recipes, ie if the user who made the
     // recipe matches the token user

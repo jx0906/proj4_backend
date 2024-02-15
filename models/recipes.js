@@ -2,7 +2,7 @@ const recipeDao = require("../daos/recipes");
 
 module.exports = {
   getAllRecipes,
-  getAllByUserId,
+  getAllByUser,
   // getAllByFilter,
   getOneById,
   getOneByIdWithNotes,
@@ -15,7 +15,7 @@ function getAllRecipes(query) {
   return recipeDao.find(query);
 }
 
-async function getAllByUserId(id) {
+async function getAllByUser(id) {
   const data = await recipeDao.find({ user: id });
   return data;
 }

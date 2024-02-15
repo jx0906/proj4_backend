@@ -13,12 +13,12 @@ router.get(
 );
 
 // @desc    Get all recipes created by user
-// @route   GET /recipe/user/userID
+// @route   GET /recipe/user/
 // @access  Private (bearer token passed in header)
 router.get(
   "/user",
   //   securityMiddleware.checkLogin,
-  recipeController.getAllByUserId
+  recipeController.getAllByUser
 );
 
 /*
