@@ -117,6 +117,16 @@ async function updateRecipe(req, res) {
   }
 }
 
+// Delete a recipe by ID
+async function deleteRecipe(req, res) {
+    try {
+      await recipeModel.deleteRecipe(req.params.recpId);
+      res.status(200).json("recipe deleted");
+    } catch (err) {
+      res.status(500).json({ errorMsg: err.message });
+    }
+  }
+
 /*WITH USER INFO
 // Update a recipe by ID
 async function updateRecipe(req, res) {
@@ -137,7 +147,7 @@ async function updateRecipe(req, res) {
     }
   }
 }
-*/
+
 
 // Delete a recipe by ID
 async function deleteRecipe(req, res) {
@@ -155,3 +165,4 @@ async function deleteRecipe(req, res) {
     }
   }
 }
+*/
