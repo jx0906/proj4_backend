@@ -13,7 +13,7 @@ https://todaybakewhat.onrender.com
 
 ## Technologies Used
 
-- Typescript, Javascript
+- Javascript
 
 ### Backend API/DB
 
@@ -30,8 +30,8 @@ https://todaybakewhat.onrender.com
 
 ### Other packages used
 
-- [dayjs](https://www.npmjs.com/package/dayjs) - Date formatting
-- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- COMING SOON! [dayjs](https://www.npmjs.com/package/dayjs) - Date formatting
+- COMING SOON! [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
 ### PaaS
 
@@ -41,8 +41,8 @@ https://todaybakewhat.onrender.com
 
 - [Wireframe](https://www.figma.com/file/W64GG2WStSC9YhuQr7aYYS/today-bake-what%3F?type=design&node-id=1848-2927&mode=design)
 - [Data model ERD](https://app.diagrams.net/#Hjx0906%2Fproj4-backend%2Fmain%2FERD.drawio)
-- CRUD List
-- Frontend page structure
+- [Overview of API](https://docs.google.com/spreadsheets/d/1onAcolqETuYnLY4E1aEvDwoeBZb6KpkL_CIPehhYmws/edit?pli=1#gid=1899189910)
+- [Frontend page structure](https://docs.google.com/spreadsheets/d/1onAcolqETuYnLY4E1aEvDwoeBZb6KpkL_CIPehhYmws/edit?pli=1#gid=0)
 
 ## Key Challenges/takeaways
 
@@ -50,4 +50,4 @@ https://todaybakewhat.onrender.com
 
 ## References and Inspirations
 
-- [Food Network](https://www.foodnetwork.com/) - UIUX for app
+- [Food Network](https://www.foodnetwork.com/) - UI/UX for app
