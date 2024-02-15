@@ -13,12 +13,12 @@ router.get(
 );
 
 // @desc    Get all recipes created by user
-// @route   GET /recipe/userID
+// @route   GET /recipe/user/
 // @access  Private (bearer token passed in header)
 router.get(
-  "/",
+  "/user",
   //   securityMiddleware.checkLogin,
-  recipeController.getAllByUserId
+  recipeController.getAllByUser
 );
 
 /*
@@ -44,18 +44,18 @@ router.post(
 // @desc    Get one recipe by recipe ID
 // @route   GET /recipe/:id
 // @access  Public
-router.get("/:id", recipeController.getOneById);
+router.get("/:recpId", recipeController.getOneById);
 
 // @desc    Update a recipe
-// @route   POST /recipe/:id
+// @route   POST /recipe/:id/edit
 // @access  Private (bearer token passed in header)
-router.post("/:id", recipeController.updateRecipe);
+router.post("/:recpId/edit", recipeController.updateRecipe);
 
 // @desc    Delete a recipe
 // @route   DELETE /recipe/:id
 // @access  Private (bearer token passed in header)
 router.delete(
-  "/:id",
+  "/:recpId",
   // securityMiddleware.checkLogin,
   recipeController.deleteRecipe
 );

@@ -13,12 +13,12 @@ const recipeSchema = new Schema(
     // },
     category: {
       type: String,
-      enum: ["Pastries", "Biscuits”, “Bread”, “Cakes"],
+      enum: ["Pastries", "Biscuits", "Bread", "Cakes"],
       required: true,
     },
     levelOfDiff: {
       type: String,
-      enum: ["Easy”, “Intermediate”, “Advanced"],
+      enum: ["Easy", "Intermediate", "Advanced"],
       required: true,
     },
     timeRequired: {
@@ -27,6 +27,10 @@ const recipeSchema = new Schema(
       min: 1,
       /* to update type as Date later when util functions are up. keeping it
     as number for now to faciltiate testing.*/
+    },
+    servingSize: {
+      type: Number,
+      min: 1,
     },
     ingredients: {
       type: [String], //use array to enable multiple values

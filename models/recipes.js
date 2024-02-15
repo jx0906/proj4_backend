@@ -2,7 +2,7 @@ const recipeDao = require("../daos/recipes");
 
 module.exports = {
   getAllRecipes,
-  getAllByUserId,
+  getAllByUser,
   // getAllByFilter,
   getOneById,
   getOneByIdWithNotes,
@@ -15,7 +15,7 @@ function getAllRecipes(query) {
   return recipeDao.find(query);
 }
 
-async function getAllByUserId(id) {
+async function getAllByUser(id) {
   const data = await recipeDao.find({ user: id });
   return data;
 }
@@ -27,8 +27,7 @@ async function getAllByFilter(query) {
   var queryFields = ["level of difficulty", "category", "time required"];
   return recipeDao
     .find({
-      levelOfDiff: queryFields.
-      dateTime: {
+      levelOfDiff: queryFields.dateTime: {
         $gte: new Date(startDateTime),
         $lte: new Date(endDateTime),
       },
@@ -41,11 +40,10 @@ async function getAllByFilter(query) {
 }
 */
 
-function getOneById(id) {
-  return recipeDao
-    .find({
-      _id: id,
-    })
+async function getOneById(param) {
+  const data = await recipeDao.findById(param);
+  // One({ _id: param });
+  return data;
 }
 
 function getOneByIdWithNotes(id) {
