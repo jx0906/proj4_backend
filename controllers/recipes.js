@@ -1,5 +1,5 @@
 const recipeModel = require("../models/recipes");
-// const modelNote = require("../models/notes");
+// const noteModel = require("../models/notes");
 // const { sendEmail } = require("../util/sendEmail");
 // const dateTimeHandler = require("../util/datetime");
 
@@ -119,13 +119,13 @@ async function updateRecipe(req, res) {
 
 // Delete a recipe by ID
 async function deleteRecipe(req, res) {
-    try {
-      await recipeModel.deleteRecipe(req.params.recpId);
-      res.status(200).json("recipe deleted");
-    } catch (err) {
-      res.status(500).json({ errorMsg: err.message });
-    }
+  try {
+    await recipeModel.deleteRecipe(req.params.recpId);
+    res.status(200).json("recipe deleted");
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
   }
+}
 
 /*WITH USER INFO
 // Update a recipe by ID
