@@ -30,12 +30,6 @@ function checkLogin(req, res, next) {
 
 /*ICEBOX: user roles; either this OR the next function depending on feature dvpt
 
-function checkIfRecpCreator(req, res, next) {
-    if (!req.user) return res.status(401).json("Unauthorized");
-    if (!req.user.isOwner) return res.status(401).json("Unauthorized");
-    next();
-  }
-
   // to check if they are owner or if they are admin
 function checkPermission(req, res, next) {
   // Status code of 401 is Unauthorized
