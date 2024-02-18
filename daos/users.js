@@ -29,20 +29,20 @@ const userSchema = new Schema(
     //     type: String,
     //     required: true,
     // },
-    // salt: {
-    //   type: String,
-    //   required: true,
-    // },
-    // iterations: {
-    //   type: Number,
-    //   required: true,
-    // },
-    // token: {
-    //   type: String,
-    // },
-    // expire_at: {
-    //   type: Number,
-    // },
+    salt: {
+      type: String,
+      required: true,
+    },
+    iterations: {
+      type: Number,
+      required: true,
+    },
+    token: {
+      type: String,
+    },
+    expire_at: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
