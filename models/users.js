@@ -1,4 +1,5 @@
 const userDao = require("../daos/users");
+const utilSecurity = require("../util/security");
 
 module.exports = {
   getUsers,
@@ -9,16 +10,16 @@ module.exports = {
 };
 
 function getUsers(queryFields) {
-  return daoUser.find(queryFields);
+  return userDao.find(queryFields);
 }
 
 async function createUser(body) {
   // check if email has been registered previously
-  const user = await daoUser.findOne({ email: body.email });
+  const user = await userDao.findOne({ email: body.email });
   if (user) {
     return { success: false, error: "User already exist" };
   }
-  const newUser = await daoUser.create(body);
+  const newUser = await userDao.create(body);
   return { success: true, data: newUser };
 }
 
@@ -32,7 +33,7 @@ async function getLoginDetails(queryFields) {
     return { success: false, error: "missing email" };
   }
   const userEmail = decodeURIComponent(queryFields.email);
-  const loginFieldsRes = await daoUser.findOne(
+  const loginFieldsRes = await userDao.findOne(
     { email: userEmail },
     loginFields
   );
@@ -50,7 +51,7 @@ async function loginUser(body) {
     return { success: false, error: "missing password" };
   }
 
-  const user = await daoUser.findOne({
+  const user = await userDao.findOne({
     email: body.email,
     password: body.password,
   });
@@ -67,8 +68,8 @@ async function loginUser(body) {
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);
-  // daoUser.updateOne({ email: body.email }, { token: token, expire_at: expiry });
-  await daoUser.findByIdAndUpdate(user._id, {
+  // userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
+  await userDao.findByIdAndUpdate(user._id, {
     token: token,
     expire_at: expiry,
   });
@@ -79,7 +80,7 @@ async function logoutUser(body) {
   if (!body.hasOwnProperty("email")) {
     return { success: false, error: "missing email" };
   }
-  await daoUser.updateOne(
+  await userDao.updateOne(
     { email: body.email },
     { token: null, expire_at: null }
   );
