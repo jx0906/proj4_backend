@@ -6,7 +6,7 @@ const recipeModel = require("../models/recipes");
 module.exports = {
   getAllRecipes,
   getAllByUser,
-  // getAllByFilter,
+  getAllByFilter,
   getOneById,
   createRecipe,
   updateRecipe,
@@ -41,20 +41,11 @@ async function getAllByUser(req, res) {
   }
 }
 
-/*
 // Get all recipes based on filter criteria
 async function getAllByFilter(req, res) {
-// Check if the user has a restaurant
-  return daoRecipe.find(query);
-
-  const recipes = await recipeModel.filterAllByRestaurantId({
-    startDateTime: req.query.startDateTime,
-    endDateTime: req.query.endDateTime,
-    id: restaurant._id,
-  });
+  const recipes = await recipeModel.getAllByFilter(req.query);
   res.json(recipes);
 }
-*/
 
 // Get one recipe by ID
 async function getOneById(req, res) {
