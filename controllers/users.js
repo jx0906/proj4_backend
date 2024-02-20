@@ -48,7 +48,7 @@ async function getLoginDetails(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const token = await modelUsers.loginUser(req.body);
+    const token = await userModel.loginUser(req.body);
     console.log(token);
     if (!token.success) {
       res.status(400).json({ errorMsg: token.error });
@@ -62,7 +62,7 @@ async function loginUser(req, res) {
 
 async function logoutUser(req, res) {
   try {
-    const result = await modelUsers.logoutUser(req.body);
+    const result = await userModel.logoutUser(req.body);
     if (!result.success) {
       res.status(400).json({ errorMsg: result.error });
       return;
