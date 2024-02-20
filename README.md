@@ -1,15 +1,10 @@
 # proj4_backend
 
-## Live URL
+This repository contains the backend source code for [todaybakewhat](https://todaybakewhat.onrender.com), designed as xxxx
 
-https://todaybakewhat.onrender.com
+## Overview of APIs available
 
-## Source Repositories
-
-- Backend API https://github.com/jx0906/proj4-backend
 - Frontend Application https://github.com/jx0906/proj4-frontend
-
-## Screenshots
 
 ## Technologies Used
 
@@ -19,7 +14,7 @@ https://todaybakewhat.onrender.com
 
 - [Mongo DB](https://www.mongodb.com/)
 - [Mongoose](https://mongoosejs.com/)
-- [Express](https://expressjs.com/)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
 ### Frontend Application
 
@@ -31,7 +26,7 @@ https://todaybakewhat.onrender.com
 ### Other packages used
 
 - COMING SOON! [dayjs](https://www.npmjs.com/package/dayjs) - Date formatting
-- COMING SOON! [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- COMING SOON!
 
 ### PaaS
 
