@@ -62,13 +62,12 @@ async function loginUser(body) {
   const jwtPayload = {
     user: user.name,
     email: user.email,
-    isOwner: user.isOwner,
     name: user.name,
     id: user._id,
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);
-  // userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
+  userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
   await userDao.findByIdAndUpdate(user._id, {
     token: token,
     expire_at: expiry,
