@@ -41,7 +41,7 @@ async function getAllByUser(req, res) {
   }
 }
 
-// Get all recipes based on filter criteria
+// Get recipes based on filter criteria
 async function getAllByFilter(req, res) {
   const recipes = await recipeModel.getAllByFilter(req.query);
   res.json(recipes);

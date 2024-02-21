@@ -21,7 +21,7 @@ async function getAllByUser(id) {
 }
 
 async function getAllByFilter(query) {
-  // variable for querying specific fields in database
+  // variable according to filter options in home page
   var findQuery = {};
   var queryFields = [
     "level of difficulty",
@@ -36,7 +36,18 @@ async function getAllByFilter(query) {
       findQuery[field] = query[field];
     }
   }
-  console.log(findQuery);
+
+  // list ingredient separately as a query param to cater for myButler feature
+  var ingredients = [];
+  if (query.hasOwnProperty("ingredients")) {
+    ingredients = query["ingredients"].split(",");
+  }
+  console.log(ingredients);
+
+  var data;
+  if (ingredients.length > 0) {
+    data = await recipeDao.find(findQuery).where("ingredient").in(ingredients);
+  } else console.log(findQuery);
   data = await recipeDao.find(findQuery);
   return data;
 }
