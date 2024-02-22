@@ -52,9 +52,13 @@ async function getAllByFilter(query) {
   return data;
 }
 
+// async function getOneById(param) {
+//   const data = await recipeDao.findOne({ _id: param });
+//   return data;
+// }
+
 async function getOneById(param) {
   const data = await recipeDao.findById(param);
-  // One({ _id: param });
   return data;
 }
 

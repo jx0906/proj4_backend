@@ -50,34 +50,34 @@ async function getAllByFilter(req, res) {
 // Get one recipe by ID
 async function getOneById(req, res) {
   //check user's identity
-  const user = req.user.id;
+  // const user = req.user.id;
   // if guest user (ie, no account), pull recipes without notes
-  if (!user || user === null) {
-    try {
-      const data = await recipeModel.getOneById(req.params.recpId);
-      if (!data || data == "null") {
-        res.json("this recipe does not exist");
-      } else {
-        res.json(data);
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ errorMsg: err.message });
+  // if (!user) {
+  try {
+    const data = await recipeModel.getOneById(req.params.recpId);
+    if (!data || data == "null") {
+      res.json("this recipe does not exist");
+    } else {
+      res.json(data);
     }
-  } else {
-    try {
-      // pull recipe with notes created by user
-      const data = await recipeModel.getOneByIdWithNotes(req.params.recpId);
-      if (!data || data == "null") {
-        res.json("this recipe does not exist");
-      } else {
-        res.json(data);
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ errorMsg: err.message });
-    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errorMsg: err.message });
   }
+  // } else {
+  //   try {
+  //     // pull recipe with notes created by user
+  //     const data = await recipeModel.getOneByIdWithNotes(req.params.recpId);
+  //     if (!data || data == "null") {
+  //       res.json("this recipe does not exist");
+  //     } else {
+  //       res.json(data);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     res.status(500).json({ errorMsg: err.message });
+  //   }
+  // }
 }
 
 // Create a recipe
