@@ -32,9 +32,27 @@ const recipeSchema = new Schema(
       type: Number,
       min: 1,
     },
+    // ingredients: {
+    //   type: [String], //use array to enable multiple values
+    //   required: true,
+    // },
     ingredients: {
-      type: [String], //use array to enable multiple values
+      type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
       required: true,
+      properties: {
+        quantity: {
+          type: "number",
+          required: true,
+        },
+        unit: {
+          type: String,
+          required: true,
+        },
+        ingredientName: {
+          type: "string",
+          required: true,
+        },
+      },
     },
     instructions: {
       type: String,
