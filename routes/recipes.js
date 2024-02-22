@@ -21,16 +21,14 @@ router.get(
   recipeController.getAllByUser
 );
 
-/*
 // @desc    Get all recipes (by filter)
-// @route   GET /recipe/?[filter params]
+// @route   GET /recipe?[filter params]
 // @access  Private (bearer token passed in header/ check if user is an owner of restaurant)
 router.get(
   "/recipe",
   //   securityMiddleware.checkIfOwner,
   recipeController.getAllByFilter
 );
-*/
 
 // @desc    Create a recipe
 // @route   POST /recipe/create

@@ -3,7 +3,7 @@ const recipeDao = require("../daos/recipes");
 module.exports = {
   getAllRecipes,
   getAllByUser,
-  // getAllByFilter,
+  getAllByFilter,
   getOneById,
   getOneByIdWithNotes,
   createRecipe,
@@ -20,29 +20,45 @@ async function getAllByUser(id) {
   return data;
 }
 
-/*
 async function getAllByFilter(query) {
-  // variable for querying specific fields in database
+  // variable according to filter options in home page
   var findQuery = {};
-  var queryFields = ["level of difficulty", "category", "time required"];
-  return recipeDao
-    .find({
-      levelOfDiff: queryFields.dateTime: {
-        $gte: new Date(startDateTime),
-        $lte: new Date(endDateTime),
-      },
-    })
-    .sort({ dateTime: 1 })
-    // use populate so we immediately get relevant data from the referenced data table
-    .populate(
-    
-    );
+  var queryFields = [
+    "level of difficulty",
+    "category",
+    "time required",
+    "created by user",
+  ];
+
+  for (field of queryFields) {
+    console.log(field);
+    if (query.hasOwnProperty(field)) {
+      findQuery[field] = query[field];
+    }
+  }
+
+  // list ingredient separately as a query param to cater for myButler feature
+  var ingredients = [];
+  if (query.hasOwnProperty("ingredients")) {
+    ingredients = query["ingredients"].split(",");
+  }
+  console.log(ingredients);
+
+  var data;
+  if (ingredients.length > 0) {
+    data = await recipeDao.find(findQuery).where("ingredient").in(ingredients);
+  } else console.log(findQuery);
+  data = await recipeDao.find(findQuery);
+  return data;
 }
-*/
+
+// async function getOneById(param) {
+//   const data = await recipeDao.findOne({ _id: param });
+//   return data;
+// }
 
 async function getOneById(param) {
   const data = await recipeDao.findById(param);
-  // One({ _id: param });
   return data;
 }
 
