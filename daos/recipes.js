@@ -28,7 +28,7 @@ const recipeSchema = new Schema(
       /* to update type as Date later when util functions are up. keeping it
     as number for now to faciltiate testing.*/
     },
-    servingSize: {
+    servings: {
       type: Number,
       min: 1,
     },
