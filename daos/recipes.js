@@ -7,10 +7,10 @@ const recipeSchema = new Schema(
       type: String,
       required: true,
     },
-    // image: {
-    //   // need this to be URL to facilitate FE rendering
-    //   type: String,
-    // },
+    image: {
+      type: Schema.Types.ObjectId,
+      ref: "Images",
+    },
     category: {
       type: String,
       enum: ["Pastries", "Biscuits", "Bread", "Cakes"],
@@ -25,23 +25,18 @@ const recipeSchema = new Schema(
       type: Number,
       required: true,
       min: 1,
-      /* to update type as Date later when util functions are up. keeping it
-    as number for now to faciltiate testing.*/
     },
     servings: {
       type: Number,
       min: 1,
     },
-    // ingredients: {
-    //   type: [String], //use array to enable multiple values
-    //   required: true,
-    // },
     ingredients: {
       type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
       required: true,
       properties: {
         quantity: {
-          type: "number",
+          type: Number,
+          min: 0,
           required: true,
         },
         unit: {
@@ -49,7 +44,7 @@ const recipeSchema = new Schema(
           required: true,
         },
         ingredientName: {
-          type: "string",
+          type: String,
           required: true,
         },
       },

@@ -1,4 +1,5 @@
 var express = require("express");
+var multer = require("multer");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -11,7 +12,12 @@ require("dotenv").config();
 var cors = require("cors");
 require("./config/database");
 var securityMiddleware = require("./middlewares/security");
+
+//initialise Express app
 var app = express();
+
+// Multer configuration for handling file uploads and direct storage in MongoDB
+var upload = multer();
 
 //mount middleware
 app.use(logger("dev"));
