@@ -38,7 +38,7 @@ router.get(
 router.post(
   "/create",
   // securityMiddleware.checkLogin,
-  upload.single("image"),
+  upload.single("image"), // call middleware to handle single file upload with the field name "image" in req.file; Multer will process the uploaded file and store it in memory.
   recipeController.createRecipe
 );
 

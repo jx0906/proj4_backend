@@ -86,6 +86,18 @@ async function getOneById(req, res) {
 // Create a recipe
 async function createRecipe(req, res) {
   try {
+
+    let imageUrl = "";
+    if (req.file) {
+      // Handle the uploaded file, such as storing it in MongoDB or AWS S3
+      // For example:
+      // const fileData = req.file.buffer;
+      // const fileName = req.file.originalname;
+      // const fileUrl = await storeFileInDatabase(fileData, fileName);
+      // imageUrl = fileUrl;
+    }
+    const { name, category, levelOfDiff, timeRequired, servings, ingredients, instructions, description } = req.body;
+    const image = req.file; // Access uploaded image from Multer
     data = await recipeModel.createRecipe(
       req.body
       // {...req.body,
