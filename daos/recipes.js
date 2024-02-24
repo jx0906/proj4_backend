@@ -8,8 +8,28 @@ const recipeSchema = new Schema(
       required: true,
     },
     image: {
-      type: Schema.Types.ObjectId,
-      ref: "Images",
+      type: ["object"],
+      properties: {
+        imgname: {
+          type: "string", // Consider VARCHAR(255) if there's a maximum length
+          required: true,
+        },
+        img: {
+          type: ["object", "null"], // Optional object or null
+          properties: {
+            data: {
+              type: "string", // Base64 encoded image data (optional)
+            },
+            contentType: {
+              type: "string",
+            },
+            url: {
+              // URL to external storage (optional)
+              type: "string",
+            },
+          },
+        },
+      },
     },
     category: {
       type: String,
