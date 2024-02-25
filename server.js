@@ -32,6 +32,7 @@ app.use(securityMiddleware.checkJWT);
 app.use("/", indexRouter);
 app.use("/user", usersRouter);
 app.use("/recipe", recipesRouter);
-app.use("/recipe", upload.single("image"), recipesRouter); // Apply middleware to recipe route
+// Apply middleware to recipe route
+// app.use("/recipe", upload.single("image"), recipesRouter);
 
 module.exports = app;

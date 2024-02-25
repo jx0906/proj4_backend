@@ -7,23 +7,20 @@ const recipeSchema = new Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: ["object"],
-      properties: {
-        imgname: {
-          type: "string", // Consider VARCHAR(255) if there's a maximum length
-          required: true,
-        },
-        imgdata: {
-          type: Buffer, // buffer = store raw data; "string" - Base64 encoded image data (optional)
-          required: true,
-        },
-        contentType: {
-          type: "string", //captures the file MIME type, eg, img, png, svg
-          retuired: true,
-        },
-      },
-    },
+    // image: {
+    //   imgname: {
+    //     type: "string", // Consider VARCHAR(255) if there's a maximum length
+    //     required: true,
+    //   },
+    //   imgdata: {
+    //     type: Buffer, // buffer = store raw data; "string" - Base64 encoded image data (optional)
+    //     required: true,
+    //   },
+    //   contentType: {
+    //     type: "string", //captures the file MIME type, eg, img, png, svg
+    //     retuired: true,
+    //   },
+    // },
     category: {
       type: String,
       enum: ["Pastries", "Biscuits", "Bread", "Cakes"],
@@ -44,8 +41,7 @@ const recipeSchema = new Schema(
       min: 1,
     },
     ingredients: {
-      type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
-      required: true,
+      type: [Object],
       properties: {
         quantity: {
           type: Number,
@@ -56,12 +52,31 @@ const recipeSchema = new Schema(
           type: String,
           required: true,
         },
-        ingredientName: {
+        name: {
           type: String,
           required: true,
         },
       },
     },
+    // ingredients: {
+    //   type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
+    //   required: true,
+    //   properties: {
+    //     quantity: {
+    //       type: Number,
+    //       min: 0,
+    //       required: true,
+    //     },
+    //     unit: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     name: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //   },
+    // },
     instructions: {
       type: String,
       required: true,
