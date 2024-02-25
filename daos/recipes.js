@@ -7,12 +7,14 @@ const recipeSchema = new Schema(
       type: String,
       required: true,
     },
-    // image: {
-    //   imgname: {
+    // image:{
+    // type: [Object],
+    // properties:{
+    //   name: {
     //     type: "string", // Consider VARCHAR(255) if there's a maximum length
     //     required: true,
     //   },
-    //   imgdata: {
+    //   data: {
     //     type: Buffer, // buffer = store raw data; "string" - Base64 encoded image data (optional)
     //     required: true,
     //   },
@@ -21,6 +23,7 @@ const recipeSchema = new Schema(
     //     retuired: true,
     //   },
     // },
+    //},
     category: {
       type: String,
       enum: ["Pastries", "Biscuits", "Bread", "Cakes"],
@@ -50,7 +53,6 @@ const recipeSchema = new Schema(
         },
         unit: {
           type: String,
-          required: true,
         },
         name: {
           type: String,
@@ -58,25 +60,6 @@ const recipeSchema = new Schema(
         },
       },
     },
-    // ingredients: {
-    //   type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
-    //   required: true,
-    //   properties: {
-    //     quantity: {
-    //       type: Number,
-    //       min: 0,
-    //       required: true,
-    //     },
-    //     unit: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     name: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //   },
-    // },
     instructions: {
       type: String,
       required: true,
