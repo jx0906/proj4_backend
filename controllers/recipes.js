@@ -1,7 +1,10 @@
 const recipeModel = require("../models/recipes");
+// const imageModel = require("../models/images");
 // const noteModel = require("../models/notes");
 // const { sendEmail } = require("../util/sendEmail");
 // const dateTimeHandler = require("../util/datetime");
+// const Grid = require("gridfs-stream");
+// const { createReadStream } = require("fs");
 
 module.exports = {
   getAllRecipes,
@@ -83,6 +86,22 @@ async function getOneById(req, res) {
 // Create a recipe
 async function createRecipe(req, res) {
   try {
+    // if (req.file) {
+    //   // Handle the uploaded file, such as storing it in MongoDB or AWS S3
+    //   const image = req.file; // Access uploaded image from Multer
+    // }
+    // const {
+    //   name,
+    //   category,
+    //   levelOfDiff,
+    //   timeRequired,
+    //   servings,
+    //   ingredients,
+    //   instructions,
+    //   description,
+    //   image,
+    // } = req.body;
+
     data = await recipeModel.createRecipe(
       req.body
       // {...req.body,

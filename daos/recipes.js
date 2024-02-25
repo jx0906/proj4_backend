@@ -8,8 +8,18 @@ const recipeSchema = new Schema(
       required: true,
     },
     // image: {
-    //   // need this to be URL to facilitate FE rendering
-    //   type: String,
+    //   imgname: {
+    //     type: "string", // Consider VARCHAR(255) if there's a maximum length
+    //     required: true,
+    //   },
+    //   imgdata: {
+    //     type: Buffer, // buffer = store raw data; "string" - Base64 encoded image data (optional)
+    //     required: true,
+    //   },
+    //   contentType: {
+    //     type: "string", //captures the file MIME type, eg, img, png, svg
+    //     retuired: true,
+    //   },
     // },
     category: {
       type: String,
@@ -25,17 +35,48 @@ const recipeSchema = new Schema(
       type: Number,
       required: true,
       min: 1,
-      /* to update type as Date later when util functions are up. keeping it
-    as number for now to faciltiate testing.*/
     },
-    servingSize: {
+    servings: {
       type: Number,
       min: 1,
     },
     ingredients: {
-      type: [String], //use array to enable multiple values
-      required: true,
+      type: [Object],
+      properties: {
+        quantity: {
+          type: Number,
+          min: 0,
+          required: true,
+        },
+        unit: {
+          type: String,
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+      },
     },
+    // ingredients: {
+    //   type: ["object"], // Define ingredients as an array of objects with qty, ingreName and unit fields
+    //   required: true,
+    //   properties: {
+    //     quantity: {
+    //       type: Number,
+    //       min: 0,
+    //       required: true,
+    //     },
+    //     unit: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     name: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //   },
+    // },
     instructions: {
       type: String,
       required: true,

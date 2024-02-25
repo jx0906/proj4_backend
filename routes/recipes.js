@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var recipeController = require("../controllers/recipes");
 // var securityMiddleware = require("../middlewares/security");
+var multer = require("multer");
+var upload = multer(); // Create a Multer instance for handling file uploads
 
 // @desc    Get all recipes
 // @route   GET /recipe/
@@ -36,6 +38,7 @@ router.get(
 router.post(
   "/create",
   // securityMiddleware.checkLogin,
+  upload.single("image"), // call middleware to handle single file upload with the field name "image" in req.file; Multer will process the uploaded file and store it in memory.
   recipeController.createRecipe
 );
 
