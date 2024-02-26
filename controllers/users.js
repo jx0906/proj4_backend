@@ -6,6 +6,7 @@ module.exports = {
   getLoginDetails,
   loginUser,
   logoutUser,
+  updateUser,
 };
 
 async function getUsers(req, res) {
@@ -28,6 +29,16 @@ async function createUser(req, res) {
     res.json(userData);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function updateUser(req, res) {
+  // Check if the user who made the recipe matches the token user
+  try {
+    const updatedUser = await userModel.updateUser(req.params.userId, req.body);
+    res.status(200).json(updatedUser);
+  } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }

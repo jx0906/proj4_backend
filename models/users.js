@@ -7,11 +7,16 @@ module.exports = {
   getLoginDetails,
   loginUser,
   logoutUser,
+  updateUser,
 };
 
-function getUsers(queryFields) {
-  return userDao.find(queryFields);
+function getUsers(query) {
+  return userDao.find(query);
 }
+
+// function getUsers(queryFields) {
+//   return userDao.find(queryFields);
+// }
 
 async function createUser(body) {
   // check if email has been registered previously
@@ -21,6 +26,15 @@ async function createUser(body) {
   }
   const newUser = await userDao.create(body);
   return { success: true, data: newUser };
+}
+
+async function updateUser(id, body) {
+  const data = await userDao.findOneAndUpdate({ _id: id }, body, {
+    new: true,
+    // "true" returns the doc (ie, record) after update was applied.
+    // else, it returns e original doc by default
+  });
+  return data;
 }
 
 async function getLoginDetails(queryFields) {
