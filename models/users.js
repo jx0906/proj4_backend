@@ -32,6 +32,7 @@ async function getLoginDetails(queryFields) {
   if (!queryFields.hasOwnProperty("email")) {
     return { success: false, error: "missing email" };
   }
+  // FE encodeURIComponent(email) because it contains special char. so we need to decode
   const userEmail = decodeURIComponent(queryFields.email);
   const loginFieldsRes = await userDao.findOne(
     { email: userEmail },
@@ -62,12 +63,13 @@ async function loginUser(body) {
   const jwtPayload = {
     user: user.name,
     email: user.email,
+    isAdmin: user.isAdmin,
     name: user.name,
     id: user._id,
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);
-  userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
+  // userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
   await userDao.findByIdAndUpdate(user._id, {
     token: token,
     expire_at: expiry,

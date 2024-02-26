@@ -1,5 +1,4 @@
 const userModel = require("../models/users");
-// const modelNote = require("../models/notes");
 
 module.exports = {
   getUsers,

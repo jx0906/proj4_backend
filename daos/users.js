@@ -43,6 +43,11 @@ const userSchema = new Schema(
     expire_at: {
       type: Number,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
   {
     timestamps: true,
