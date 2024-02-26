@@ -1,5 +1,6 @@
 //import library
 const mongoose = require("mongoose");
+const textIndexes = require("../util/textIndexes"); //to ensure text index is created immediately aft connection to DB is establish (implicit execution)
 
 // laying the connection to the data layer (ie, DAO)
 mongoose.set("debug", true);

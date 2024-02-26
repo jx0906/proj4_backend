@@ -23,13 +23,15 @@ router.get(
   recipeController.getAllByUser
 );
 
-// @desc    Get all recipes (by filter)
-// @route   GET /recipe?[filter params]
-// @access  Private (bearer token passed in header/ check if user is an owner of restaurant)
+// @desc    Get all recipes (by keyword)
+// @route   GET recipe/search?searchTerm=banana
+// @access  Public
 router.get(
-  "/recipe",
-  //   securityMiddleware.checkIfOwner,
-  recipeController.getAllByFilter
+  // : indicates route parameters for an ID, not a query parameter for a search term.
+  // using ?searchTerm=:keyword makes searchTerm a query parameter and accessible via req.query.searchTerm.
+  "/search",
+  //   securityMiddleware.checkIfOwner
+  recipeController.getByKeyword
 );
 
 // @desc    Create a recipe
