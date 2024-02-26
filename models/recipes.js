@@ -33,7 +33,7 @@ async function getByKeyword(searchTerm) {
       { instructions: { $regex: searchTermRegex } },
     ],
   });
-  //.sort({ name: 1 }); // ascending order
+  // .sort({ name: 1 }); // ascending order
 
   return data;
 }

@@ -37,7 +37,7 @@ async function getAllByUser(req, res) {
     if (!data || data == "null") {
       return res.json("user has not created any recipes");
     } else {
-      res.json(data);
+      res.json({ recipes: data });
     }
   } catch (err) {
     console.error(err);
@@ -49,8 +49,8 @@ async function getAllByUser(req, res) {
 async function getByKeyword(req, res) {
   try {
     // const searchTerm = req.query.searchTerm; // Access the searchTerm from req
-    const recipes = await recipeModel.getByKeyword(req.query.searchTerm);
-    res.json(recipes);
+    const data = await recipeModel.getByKeyword(req.query.searchTerm);
+    res.json({ recipes: data });
   } catch (err) {
     console.error(err);
     throw err;
