@@ -63,6 +63,7 @@ const recipeSchema = new Schema(
     instructions: {
       type: String,
       required: true,
+      // index: true,
     },
     description: {
       type: String,

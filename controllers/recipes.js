@@ -9,7 +9,8 @@ const recipeModel = require("../models/recipes");
 module.exports = {
   getAllRecipes,
   getAllByUser,
-  getAllByFilter,
+  getByKeyword,
+  // getAllByFilter,
   getOneById,
   createRecipe,
   updateRecipe,
@@ -44,11 +45,23 @@ async function getAllByUser(req, res) {
   }
 }
 
-// Get recipes based on filter criteria
-async function getAllByFilter(req, res) {
-  const recipes = await recipeModel.getAllByFilter(req.query);
-  res.json(recipes);
+// Get recipes based on keywords
+async function getByKeyword(req, res) {
+  try {
+    // const searchTerm = req.query.searchTerm; // Access the searchTerm from req
+    const recipes = await recipeModel.getByKeyword(req.query.searchTerm);
+    res.json(recipes);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
+
+// Get recipes based on filter criteria
+// async function getAllByFilter(req, res) {
+//   const recipes = await recipeModel.getAllByFilter(req.query);
+//   res.json(recipes);
+// }
 
 // Get one recipe by ID
 async function getOneById(req, res) {

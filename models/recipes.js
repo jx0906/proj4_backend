@@ -3,6 +3,7 @@ const recipeDao = require("../daos/recipes");
 module.exports = {
   getAllRecipes,
   getAllByUser,
+  getByKeyword,
   getAllByFilter,
   getOneById,
   getOneByIdWithNotes,
@@ -17,6 +18,23 @@ function getAllRecipes(query) {
 
 async function getAllByUser(id) {
   const data = await recipeDao.find({ user: id });
+  return data;
+}
+
+async function getByKeyword(searchTerm) {
+  // use regex to match the search term against intended database fields.
+  const searchTermRegex = new RegExp(searchTerm, "i"); // 'i' for case-insensitive search
+
+  const data = await recipeDao.find({
+    $or: [
+      { name: { $regex: searchTermRegex } }, // 'i' flag for case-insensitive search
+      { description: { $regex: searchTermRegex } },
+      { "ingredients.name": { $regex: searchTermRegex } },
+      { instructions: { $regex: searchTermRegex } },
+    ],
+  });
+  //.sort({ name: 1 }); // ascending order
+
   return data;
 }
 
