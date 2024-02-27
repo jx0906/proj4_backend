@@ -1,9 +1,10 @@
 const utilSecurity = require("../util/security");
+const recipeModel = require("../models/recipes");
 
 module.exports = {
   checkJWT,
   checkLogin,
-    checkIsAdmin,
+  // checkUserRole,
 };
 
 function checkJWT(req, res, next) {
@@ -24,18 +25,15 @@ function checkJWT(req, res, next) {
 
 function checkLogin(req, res, next) {
   // check whether user exists
-  if (!req.user) return res.status(401).json("Unauthorized");
+  if (!req.user) return res.status(401).json("Unauthorized - not logged in");
   next();
 }
 
-// to check if they are owner or if they are admin
-function checkIsAdmin(req, res, next) {
-  // Status code of 401 is Unauthorized
-  if (!req.user) return res.status(401).json("Unauthorized");
-  // check if email is the same as the logged in user and whether u are the admin
-  // ie if you are not the owner and u are not the admin (ie,whether property for is_Admin
-  // is true in dao for this user)
-  if (req.body.email != req.user.email && req.user.is_admin == false)
-    return res.status(401).json("Unauthorized");
-  next();
-}
+// // to check if they are admin
+// async function checkUserRole(req, res, next) {
+//   const currRecipe = await recipeModel.getOneById(req.params.id);
+//   if (currRecipe.user !== user || !req.user.isAdmin)
+//   // Status code of 401 is Unauthorized
+//   return res.status(401).json("Unauthorized");
+//   next();
+// }

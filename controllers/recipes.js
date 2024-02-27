@@ -1,8 +1,7 @@
 const recipeModel = require("../models/recipes");
-// const imageModel = require("../models/images");
+const userModel = require("../models/users");
 // const noteModel = require("../models/notes");
 // const { sendEmail } = require("../util/sendEmail");
-// const dateTimeHandler = require("../util/datetime");
 // const Grid = require("gridfs-stream");
 // const { createReadStream } = require("fs");
 
@@ -126,9 +125,14 @@ async function createRecipe(req, res) {
 }
 
 async function updateRecipe(req, res) {
-  // Check if the user who made the recipe matches the token user
   try {
-    // insert validation checks?
+    // Check if the token user is admin or matches the user who created the current recipe
+    const currRecipe = await recipeModel.getOneById(req.params.recpId);
+
+    if (currRecipe.user != req.user.id && !req.user.isAdmin)
+      // Status code of 401 is Unauthorized
+      return res.status(401).json("Unauthorized");
+
     const updatedRecipe = await recipeModel.updateRecipe(
       req.params.recpId,
       req.body
@@ -142,49 +146,16 @@ async function updateRecipe(req, res) {
 // Delete a recipe by ID
 async function deleteRecipe(req, res) {
   try {
+    // Check if the token user is admin or matches the user who created the current recipe
+    const currRecipe = await recipeModel.getOneById(req.params.recpId);
+
+    if (currRecipe.user != req.user.id && !req.user.isAdmin)
+      // Status code of 401 is Unauthorized
+      return res.status(401).json("Unauthorized");
+
     await recipeModel.deleteRecipe(req.params.recpId);
     res.status(200).json("recipe deleted");
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }
-
-/*WITH USER INFO
-// Update a recipe by ID
-async function updateRecipe(req, res) {
-  // Check if the user who made the recipe matches the token user
-  const curRecipe = await recipeModel.getOneById(req.params.recpId);
-  if (!curRecipe.user || curRecipe.user != user) {
-    return res.status(401).json("Unauthorized");
-  } else {
-    try {
-      // insert validation checks?
-      const updatedRecipe = await recipeModel.updateRecipe(
-        req.params.recpId,
-        req.body
-      );
-      res.status(200).json(updatedRecipe);
-    } catch (err) {
-      res.status(500).json({ errorMsg: err.message });
-    }
-  }
-}
-
-
-// Delete a recipe by ID
-async function deleteRecipe(req, res) {
-  // Check if the user who made the recipe matches the token user
-  const user = req.user.id;
-  const data = await recipeModel.getOneById(req.params.recpId);
-  if (!data.user || data.user != user) {
-    return res.status(401).json("Unauthorized");
-  } else {
-    try {
-      await recipeModel.deleteRecipe(req.params.recpId);
-      res.status(200).json("recipe deleted");
-    } catch (err) {
-      res.status(500).json({ errorMsg: err.message });
-    }
-  }
-}
-*/

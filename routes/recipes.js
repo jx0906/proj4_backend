@@ -28,7 +28,7 @@ router.get(
 // @access  Public
 router.get(
   // : indicates route parameters for an ID, not a query parameter for a search term.
-  // using ?searchTerm=:keyword makes searchTerm a query parameter and accessible via req.query.searchTerm.
+  // using "?searchTerm=:keyword" makes searchTerm a query parameter and accessible via req.query.searchTerm - to include "" portion in URL for FE API call
   "/search",
   //   securityMiddleware.checkIfOwner
   recipeController.getByKeyword
@@ -51,15 +51,21 @@ router.get("/:recpId", recipeController.getOneById);
 
 // @desc    Update a recipe
 // @route   POST /recipe/:id/edit
-// @access  Private (bearer token passed in header)
-router.post("/:recpId/edit", recipeController.updateRecipe);
+// @access  Private (bearer token passed in header); admin only
+router.post(
+  "/:recpId/edit",
+  securityMiddleware.checkLogin,
+  securityMiddleware.checkJWT,
+  recipeController.updateRecipe
+);
 
 // @desc    Delete a recipe
 // @route   DELETE /recipe/:id
-// @access  Private (bearer token passed in header)
+// @access  Private (bearer token passed in header); admin only
 router.delete(
   "/:recpId",
   securityMiddleware.checkLogin,
+  securityMiddleware.checkJWT,
   recipeController.deleteRecipe
 );
 

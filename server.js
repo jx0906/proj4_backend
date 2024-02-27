@@ -3,18 +3,17 @@ var multer = require("multer");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+require("dotenv").config();
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var recipesRouter = require("./routes/recipes");
 
-require("dotenv").config();
-var cors = require("cors");
-require("./config/database");
-var securityMiddleware = require("./middlewares/security");
-
 //initialise Express app
 var app = express();
+var securityMiddleware = require("./middlewares/security");
+require("./config/database");
 
 // Configure Multer storage for handling file uploads and direct storage in MongoDB
 var storage = multer.memoryStorage(); // Store images in memory for now
