@@ -92,8 +92,8 @@ function createRecipe(body) {
   return recipeDao.create(body);
 }
 
-async function updateRecipe(id, body) {
-  const data = await recipeDao.findOneAndUpdate({ _id: id }, body, {
+async function updateRecipe(recpId, body) {
+  const data = await recipeDao.findByIdAndUpdate(recpId, body, {
     new: true,
     // "true" returns the doc (ie, record) after update was applied.
     // else, it returns e original doc by default

@@ -2,7 +2,7 @@ const userDao = require("../daos/users");
 const utilSecurity = require("../util/security");
 
 module.exports = {
-  getUsers,
+  getUserById,
   createUser,
   getLoginDetails,
   loginUser,
@@ -10,13 +10,14 @@ module.exports = {
   updateUser,
 };
 
-function getUsers(query) {
-  return userDao.find(query);
-}
-
-// function getUsers(queryFields) {
-//   return userDao.find(queryFields);
+// function getUsers(query) {
+//   return userDao.find(query);
 // }
+
+async function getUserById(id) {
+  const data = await userDao.findById(id);
+  return data;
+}
 
 async function createUser(body) {
   // check if email has been registered previously
