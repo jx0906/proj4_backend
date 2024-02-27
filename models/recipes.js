@@ -89,7 +89,6 @@ function createRecipe(body) {
   need to decode it before storing it in the database, ie: */
   // const imageData = Buffer.from(body.image.img.data, "base64");
   // body.image.img.data = imageData;
-
   return recipeDao.create(body);
 }
 

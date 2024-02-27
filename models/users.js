@@ -7,11 +7,16 @@ module.exports = {
   getLoginDetails,
   loginUser,
   logoutUser,
+  updateUser,
 };
 
-function getUsers(queryFields) {
-  return userDao.find(queryFields);
+function getUsers(query) {
+  return userDao.find(query);
 }
+
+// function getUsers(queryFields) {
+//   return userDao.find(queryFields);
+// }
 
 async function createUser(body) {
   // check if email has been registered previously
@@ -23,6 +28,15 @@ async function createUser(body) {
   return { success: true, data: newUser };
 }
 
+async function updateUser(id, body) {
+  const data = await userDao.findOneAndUpdate({ _id: id }, body, {
+    new: true,
+    // "true" returns the doc (ie, record) after update was applied.
+    // else, it returns e original doc by default
+  });
+  return data;
+}
+
 async function getLoginDetails(queryFields) {
   const loginFields = {
     name: 1,
@@ -32,6 +46,7 @@ async function getLoginDetails(queryFields) {
   if (!queryFields.hasOwnProperty("email")) {
     return { success: false, error: "missing email" };
   }
+  // FE encodeURIComponent(email) because it contains special char. so we need to decode
   const userEmail = decodeURIComponent(queryFields.email);
   const loginFieldsRes = await userDao.findOne(
     { email: userEmail },
@@ -62,12 +77,13 @@ async function loginUser(body) {
   const jwtPayload = {
     user: user.name,
     email: user.email,
+    isAdmin: user.isAdmin,
     name: user.name,
     id: user._id,
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);
-  userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
+  // userDao.updateOne({ email: body.email }, { token: token, expire_at: expiry });
   await userDao.findByIdAndUpdate(user._id, {
     token: token,
     expire_at: expiry,
