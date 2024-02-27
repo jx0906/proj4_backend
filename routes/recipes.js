@@ -1,16 +1,16 @@
 var express = require("express");
 var router = express.Router();
 var recipeController = require("../controllers/recipes");
-// var securityMiddleware = require("../middlewares/security");
+var securityMiddleware = require("../middlewares/security");
 var multer = require("multer");
 var upload = multer(); // Create a Multer instance for handling file uploads
 
 // @desc    Get all recipes
 // @route   GET /recipe/
-// @access  Private (bearer token passed in header)
+// @access  Public (bearer token passed in header)
 router.get(
   "/",
-  //   securityMiddleware.checkLogin,
+  // securityMiddleware.checkLogin,
   recipeController.getAllRecipes
 );
 
@@ -19,7 +19,7 @@ router.get(
 // @access  Private (bearer token passed in header)
 router.get(
   "/user",
-  //   securityMiddleware.checkLogin,
+  securityMiddleware.checkLogin,
   recipeController.getAllByUser
 );
 
@@ -39,7 +39,7 @@ router.get(
 // @access  Private (bearer token passed in header)
 router.post(
   "/create",
-  // securityMiddleware.checkLogin,
+  securityMiddleware.checkLogin,
   upload.single("image"), // call middleware to handle single file upload with the field name "image" in req.file; Multer will process the uploaded file and store it in memory.
   recipeController.createRecipe
 );
@@ -59,7 +59,7 @@ router.post("/:recpId/edit", recipeController.updateRecipe);
 // @access  Private (bearer token passed in header)
 router.delete(
   "/:recpId",
-  // securityMiddleware.checkLogin,
+  securityMiddleware.checkLogin,
   recipeController.deleteRecipe
 );
 

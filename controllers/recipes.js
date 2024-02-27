@@ -33,7 +33,7 @@ async function getAllByUser(req, res) {
     // check if user has self-created recipes, ie if the user who made the
     // recipe matches the token user
     const user = req.user.id;
-    const data = await recipeModel.getAllByUserId(user);
+    const data = await recipeModel.getAllByUser(user);
     if (!data || data == "null") {
       return res.json("user has not created any recipes");
     } else {
@@ -114,12 +114,11 @@ async function createRecipe(req, res) {
     //   description,
     //   image,
     // } = req.body;
-
-    data = await recipeModel.createRecipe(
-      req.body
-      // {...req.body,
-      // user,}
-    );
+    const data = await recipeModel.createRecipe({
+      ...req.body,
+      user: req.user.id,
+    });
+    res.json(data);
     res.status(201).json(data);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
