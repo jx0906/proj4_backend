@@ -14,7 +14,7 @@ module.exports = {
   getOneById,
   createRecipe,
   updateRecipe,
-  addBookmark,
+  updateBookmark,
   deleteRecipe,
 };
 
