@@ -56,7 +56,7 @@ router.post(
 // @desc    Get one recipe by recipe ID
 // @route   GET /recipe/:id
 // @access  Public
-// router.get("/:recpId", recipeController.getOneById);
+router.get("/:recpId", recipeController.getOneById);
 
 // @desc    Update a recipe
 // @route   POST /recipe/:id/edit
@@ -68,13 +68,13 @@ router.post(
   recipeController.updateRecipe
 );
 
-// @desc    Add users who bookmark a recipe - separating this from edit because the permissions are less stringent, ie any user can update the "bookmarked" field
+// @desc    Add users who bookmark a recipe and vice versa - separating this from edit because the permissions are less stringent, ie any user can update the "bookmarked" field
 // @route   POST /recipe/:id/addbookmark
 // @access  Private (bearer token passed in header); users only
 router.post(
-  "/:recpId/addbookmark",
+  "/:recpId/updatebookmark",
   securityMiddleware.checkLogin,
-  recipeController.addBookmark
+  recipeController.updateBookmark
 );
 
 // @desc    Delete a recipe

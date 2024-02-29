@@ -11,7 +11,7 @@ module.exports = {
   getByKeyword,
   getBySpecificField,
   // getAllByParam,
-  getOneByUserId,
+  getOneById,
   createRecipe,
   updateRecipe,
   addBookmark,
@@ -94,7 +94,7 @@ async function getBySpecificField(req, res) {
 // }
 
 // Get one recipe by ID
-async function getOneByUserId(req, res) {
+async function getOneById(req, res) {
   //check user's identity
   // const user = req.user.id;
   // if guest user (ie, no account), pull recipes without notes
@@ -144,10 +144,7 @@ async function createRecipe(req, res) {
     //   description,
     //   image,
     // } = req.body;
-    const data = await recipeModel.createRecipe({
-      ...req.body,
-    });
-    res.json(data);
+    const data = await recipeModel.createRecipe(req.body);
     res.status(201).json(data);
   } catch (err) {
     res.status(500).json({ errorMsg: err.message });
@@ -173,7 +170,7 @@ async function updateRecipe(req, res) {
   }
 }
 
-async function addBookmark(req, res) {
+async function updateBookmark(req, res) {
   try {
     const updatedRecipe = await recipeModel.updateBookmark(
       req.params.recpId,

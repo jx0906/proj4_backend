@@ -37,7 +37,6 @@ const recipeSchema = new Schema(
     timeRequired: {
       type: Number,
       required: true,
-      min: 1,
     },
     servings: {
       type: Number,
