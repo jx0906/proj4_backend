@@ -77,6 +77,7 @@ const recipeSchema = new Schema(
     // (containing the schema) to use to replace the ObjectIds with
     bookmarked: {
       type: [String], //array of user data
+      default: [],
     },
     notes: {
       type: Schema.Types.ObjectId,
