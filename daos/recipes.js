@@ -72,6 +72,9 @@ const recipeSchema = new Schema(
       default: "AppUser",
       required: true,
     },
+    edamamId:{
+      type: String,
+    }
     // by refactoring as type: [ObjectID] ref: XXXX
     // we will be able to inform the populate() method which dao/model's documents
     // (containing the schema) to use to replace the ObjectIds with
