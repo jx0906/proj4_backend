@@ -63,14 +63,21 @@ const recipeSchema = new Schema(
     instructions: {
       type: String,
       required: true,
-      // index: true,
     },
     description: {
       type: String,
     },
+    source: {
+      type: String,
+      default: "AppUser",
+      required: true,
+    },
     // by refactoring as type: [ObjectID] ref: XXXX
     // we will be able to inform the populate() method which dao/model's documents
     // (containing the schema) to use to replace the ObjectIds with
+    bookmarked: {
+      type: [String], //array of user data
+    },
     notes: {
       type: Schema.Types.ObjectId,
       ref: "Notes",
@@ -78,8 +85,6 @@ const recipeSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      //   to uncomment after the base code is tested to be working
-      // required: true,
     },
   },
   {
