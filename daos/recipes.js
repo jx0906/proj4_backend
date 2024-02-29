@@ -72,9 +72,9 @@ const recipeSchema = new Schema(
       default: "AppUser",
       required: true,
     },
-    edamamId:{
+    edamamId: {
       type: String,
-    }
+    },
     // by refactoring as type: [ObjectID] ref: XXXX
     // we will be able to inform the populate() method which dao/model's documents
     // (containing the schema) to use to replace the ObjectIds with
@@ -89,6 +89,7 @@ const recipeSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      default: "65d443ddbe873f42ef4ca680", //admin user ID
     },
   },
   {

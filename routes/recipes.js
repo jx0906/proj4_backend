@@ -34,29 +34,47 @@ router.get(
   recipeController.getByKeyword
 );
 
+// @desc    Get recipes (by edamam id)
+// @route   GET recipe/find?edamamId=xxxxx
+// @access  Private
+router.get(
+  "/find",
+  securityMiddleware.checkLogin, // user info is passed in to userActions.jsx so no need to get user identity from jwt like updateRecipe below
+  recipeController.getBySpecificField
+);
+
 // @desc    Create a recipe
 // @route   POST /recipe/create
 // @access  Private (bearer token passed in header)
 router.post(
   "/create",
   securityMiddleware.checkLogin,
-  upload.single("image"), // call middleware to handle single file upload with the field name "image" in req.file; Multer will process the uploaded file and store it in memory.
+  // upload.single("image"), // call middleware to handle single file upload with the field name "image" in req.file; Multer will process the uploaded file and store it in memory.
   recipeController.createRecipe
 );
 
 // @desc    Get one recipe by recipe ID
 // @route   GET /recipe/:id
 // @access  Public
-router.get("/:recpId", recipeController.getOneById);
+// router.get("/:recpId", recipeController.getOneById);
 
 // @desc    Update a recipe
 // @route   POST /recipe/:id/edit
-// @access  Private (bearer token passed in header); admin only
+// @access  Private (bearer token passed in header); admin and recipe creator only
 router.post(
   "/:recpId/edit",
   securityMiddleware.checkLogin,
-  securityMiddleware.checkJWT,
+  securityMiddleware.checkJWT, // to verify when i have time if this is necessary cos i didnt pass user info to edit function in FE for CRUD op
   recipeController.updateRecipe
+);
+
+// @desc    Add users who bookmark a recipe - separating this from edit because the permissions are less stringent, ie any user can update the "bookmarked" field
+// @route   POST /recipe/:id/addbookmark
+// @access  Private (bearer token passed in header); users only
+router.post(
+  "/:recpId/addbookmark",
+  securityMiddleware.checkLogin,
+  recipeController.addBookmark
 );
 
 // @desc    Delete a recipe

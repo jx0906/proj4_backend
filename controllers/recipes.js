@@ -9,10 +9,12 @@ module.exports = {
   getAllRecipes,
   getAllByUser,
   getByKeyword,
-  // getAllByFilter,
-  getOneById,
+  getBySpecificField,
+  // getAllByParam,
+  getOneByUserId,
   createRecipe,
   updateRecipe,
+  addBookmark,
   deleteRecipe,
 };
 
@@ -46,9 +48,11 @@ async function getAllByUser(req, res) {
 
 // Get recipes based on keywords
 async function getByKeyword(req, res) {
+  let data;
   try {
-    // const searchTerm = req.query.searchTerm; // Access the searchTerm from req
-    const data = await recipeModel.getByKeyword(req.query.searchTerm);
+    req.query.bookmarkedUser
+      ? (data = await recipeModel.checkBookmarked(req.query.bookmarked))
+      : (data = await recipeModel.getByKeyword(req.query.searchTerm));
     res.json({ recipes: data });
   } catch (err) {
     console.error(err);
@@ -56,14 +60,41 @@ async function getByKeyword(req, res) {
   }
 }
 
+async function getBySpecificField(req, res) {
+  try {
+    data = await recipeModel.getByEdamamId(req.query.edamamId);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+// Get recipes based on keywords
+// async function getBySpecificField(req, res) {
+//   let data;
+//   try {
+//     req.query.edamamId
+//       ? (data = await recipeModel.getByEdamamId(req.query.edamamId))
+//       : (data = await recipeModel.getByBookmarkedId(
+//           req.query.bookmarked,
+//           req.user.id
+//         ));
+//     res.json(data);
+//   } catch (err) {
+//     console.error(err);
+//     throw err;
+//   }
+// }
+
 // Get recipes based on filter criteria
-// async function getAllByFilter(req, res) {
+// async function getByParam(req, res) {
 //   const recipes = await recipeModel.getAllByFilter(req.query);
 //   res.json(recipes);
 // }
 
 // Get one recipe by ID
-async function getOneById(req, res) {
+async function getOneByUserId(req, res) {
   //check user's identity
   // const user = req.user.id;
   // if guest user (ie, no account), pull recipes without notes
@@ -115,7 +146,6 @@ async function createRecipe(req, res) {
     // } = req.body;
     const data = await recipeModel.createRecipe({
       ...req.body,
-      user: req.user.id,
     });
     res.json(data);
     res.status(201).json(data);
@@ -134,6 +164,18 @@ async function updateRecipe(req, res) {
       return res.status(401).json("Unauthorized");
 
     const updatedRecipe = await recipeModel.updateRecipe(
+      req.params.recpId,
+      req.body
+    );
+    res.status(200).json(updatedRecipe);
+  } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function addBookmark(req, res) {
+  try {
+    const updatedRecipe = await recipeModel.updateBookmark(
       req.params.recpId,
       req.body
     );

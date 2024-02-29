@@ -4,10 +4,13 @@ module.exports = {
   getAllRecipes,
   getAllByUser,
   getByKeyword,
+  getByEdamamId,
   getAllByFilter,
   getOneById,
   getOneByIdWithNotes,
   createRecipe,
+  updateBookmark,
+  checkBookmarked,
   updateRecipe,
   deleteRecipe,
 };
@@ -25,16 +28,35 @@ async function getByKeyword(searchTerm) {
   // use regex to match the search term against intended database fields.
   const searchTermRegex = new RegExp(searchTerm, "i"); // 'i' for case-insensitive search
 
-  const data = await recipeDao.find({
-    $or: [
-      { name: { $regex: searchTermRegex } }, // 'i' flag for case-insensitive search
-      { description: { $regex: searchTermRegex } },
-      { "ingredients.name": { $regex: searchTermRegex } },
-      { instructions: { $regex: searchTermRegex } },
-    ],
-  });
-  // .sort({ name: 1 }); // ascending order
+  const data = await recipeDao
+    .find({
+      $or: [
+        { name: { $regex: searchTermRegex } }, // 'i' flag for case-insensitive search
+        { description: { $regex: searchTermRegex } },
+        { "ingredients.name": { $regex: searchTermRegex } },
+        { instructions: { $regex: searchTermRegex } },
+      ],
+    })
+    .sort({ name: 1 }); // ascending order
 
+  return data;
+}
+
+async function checkBookmarked(id) {
+  // use regex to match the search term against intended database fields.
+  const searchTermRegex = new RegExp(id, "i"); // 'i' for case-insensitive search
+
+  const data = await recipeDao
+    .find({
+      bookmarked: { $regex: searchTermRegex }, // 'i' flag for case-insensitive search
+    })
+    .sort({ name: 1 }); // ascending order
+
+  return data;
+}
+
+async function getByEdamamId(edamamId) {
+  const data = await recipeDao.find({ edamamId: edamamId });
   return data;
 }
 
@@ -93,6 +115,15 @@ function createRecipe(body) {
 }
 
 async function updateRecipe(recpId, body) {
+  const data = await recipeDao.findByIdAndUpdate(recpId, body, {
+    new: true,
+    // "true" returns the doc (ie, record) after update was applied.
+    // else, it returns e original doc by default
+  });
+  return data;
+}
+
+async function updateBookmark(recpId, body) {
   const data = await recipeDao.findByIdAndUpdate(recpId, body, {
     new: true,
     // "true" returns the doc (ie, record) after update was applied.
