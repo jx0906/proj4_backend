@@ -19,7 +19,7 @@ const recipeSchema = new Schema(
         // imgdata: {
         //   type: Buffer, // buffer = store raw data; "string" - Base64 encoded image data (optional)
         // },
-        imgcontentType: {
+        imgContentType: {
           type: "string", //captures the file MIME type, eg, img, png, svg
         },
       },
