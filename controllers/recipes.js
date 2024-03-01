@@ -8,7 +8,7 @@ const userModel = require("../models/users");
 module.exports = {
   getAllRecipes,
   getAllByUser,
-  getByKeyword,
+  getByBookmarkedOrKeyword,
   getBySpecificField,
   // getAllByParam,
   getOneById,
@@ -47,11 +47,11 @@ async function getAllByUser(req, res) {
 }
 
 // Get recipes based on keywords
-async function getByKeyword(req, res) {
+async function getByBookmarkedOrKeyword(req, res) {
   let data;
   try {
     req.query.bookmarkedUser
-      ? (data = await recipeModel.checkBookmarked(req.query.bookmarked))
+      ? (data = await recipeModel.checkBookmarked(req.query.bookmarkedUser))
       : (data = await recipeModel.getByKeyword(req.query.searchTerm));
     res.json({ recipes: data });
   } catch (err) {

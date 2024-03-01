@@ -43,14 +43,9 @@ async function getByKeyword(searchTerm) {
 }
 
 async function checkBookmarked(id) {
-  // use regex to match the search term against intended database fields.
-  const searchTermRegex = new RegExp(id, "i"); // 'i' for case-insensitive search
-
-  const data = await recipeDao
-    .find({
-      bookmarked: { $regex: searchTermRegex }, // 'i' flag for case-insensitive search
-    })
-    .sort({ name: 1 }); // ascending order
+  const data = await recipeDao.find({
+    bookmarked: id,
+  });
 
   return data;
 }
