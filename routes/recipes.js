@@ -23,7 +23,7 @@ router.get(
   recipeController.getAllByUser
 );
 
-// @desc    Get all recipes (by keyword)
+// @desc    Get all recipes (by search params)
 // @route   GET recipe/search?searchTerm=banana
 // @access  Public
 router.get(
@@ -31,7 +31,7 @@ router.get(
   // using "?searchTerm=:keyword" makes searchTerm a query parameter and accessible via req.query.searchTerm - to include "" portion in URL for FE API call
   "/search",
   //   securityMiddleware.checkIfOwner
-  recipeController.getByKeyword
+  recipeController.getByBookmarkedOrKeyword
 );
 
 // @desc    Get recipes (by edamam id)
