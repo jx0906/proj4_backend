@@ -1,175 +1,63 @@
-# [todaybakewhat](https://todaybakewhat.onrender.com)
+# proj4_backend
 
-Developed with the objective to support users in their search for The Bake Recipe of the day, this app brings together recipes thoughtfully created by the todaybakewhat community and data aggregated from third party APIs, overlayed with features like note taking to record bake observations and comments, track pantry inventory and curate shopping lists, as well as customisable price trackers to enable the smart user to compare prices of the ingredients required for the bake, all from the convenience of one app.
+This repository contains the backend source code for [todaybakewhat](https://todaybakewhat.onrender.com), an app designed to to support users in their search for The Bake Recipe of the day from recipe search to purchase of required ingredients and tracking of baking observations/feedback. More info on the application and its design documentations can be found [here](https://github.com/jx0906/proj4-frontend).
 
-## Screenshots
+- Libraries/Packages/Databases used:
+  - [Mongo DB](https://www.mongodb.com/)
+  - [Mongoose](https://mongoosejs.com/)
+  - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
-Landing page for the enthusiastic baker, with an overview of the recipe contributions from the app community and data aggregated from third party APIs to enrich the repetoire
-<img width="796" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/ed325b52-bc20-41c4-9847-877e055687d3">
+## Data Model
 
-Complete recipe information with options for users to share recipes through a link, and for logged on users, to bookmark recipes for future reference, edit self-created recipes and append notes.  
-<img width="520" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/e44e4ac9-5882-4785-843b-f62f095b52a7">
+[ERD](https://app.diagrams.net/#Hjx0906%2Fproj4-backend%2Fmain%2FERD.drawio)
 
-Recipe Management - conveniently search, create, edit, and record your baking adventures all in one platform  
-<img width="751" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/c6fcafdc-3aa9-40f0-a994-1f12e8f8270b">
+## Overview of APIs available
 
-<img width="747" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/982b69f1-b1e1-45f7-b9c1-cb21be249de4">
+We have organised the APIs by the main feature they are supporting in the application, ie, User, Recipes and Notes. Pls see the relevant tables below for the specific API paths and descriptions you will need to find the most appropriate endpoint for your use cases.
 
-<img width="523" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/b081ca40-9bd7-45d0-b9b6-4aca6a58e206">
+### API Group: User
 
-<img width="835" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/0238d7cd-0508-449c-80f0-23a893c9e2d7">
+**This API Group manages user accounts and authentication.**
 
-Separate permissions for admin and users  
-<img width="682" alt="image" src="https://github.com/jx0906/proj4_frontend/assets/142247158/e03c585f-1b52-4d94-9c55-3164b509b6a5">
+| Feature | API Path | Method | Access | Query Params | Business Logic | Sample Request | Sample Response |
+|---|---|---|---|---|---|---|---|
+| **Sign Up** | `/user/signup` | POST | **Public** | - | Creates a new user account. | `POST /user/signup` (with user data in request body) | `{"success": true, "data": { ...user data... }}` |
+| **Get Hash/Iterations** | `/user/login` | GET | **Public** | `email` | Retrieves the password hash and number of iterations used for password hashing for a given email (used for login). | `GET /user/login?email=john.doe@example.com` | `{"salt": "...", "iterations": 10000}` |
+| **Login** | `/user/login` | POST | **Public** | - | Logs in a user and returns a JWT token. | `POST /user/login` (with email and password in request body) | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
+| **Logout** | `/user/logout` | POST | **Private** | - | Logs out the currently authenticated user. | `POST /user/logout` | `"logout success"` |
+| **Update Profile** | `/user/update` | PUT | **Private** | - | Updates the profile of the currently authenticated user. | `PUT /user/update` (with updated user data in request body) | `{"success": true, "data": { ...updated user data... }}` |
+| **Delete Account** | `/user/delete` | DELETE | **Private** | - | Deletes the account of the currently authenticated user. | `DELETE /user/delete` | `"user account successfully deleted"` |
 
-## Technologies Used
+### API Group: Recipe
 
-- Javascript, HTML, CSS
+**This API Group manages recipes and related data.**
 
-### Backend API/DB ([Source Repository](https://github.com/jx0906/proj4-backend))
+| Feature | API Path | Method | Access | Query Params | Business Logic | Sample Request | Sample Response |
+|---|---|---|---|---|---|---|---|
+| **Get All Recipes** | `/recipe/` | GET | **Public** | - | Retrieves a list of all available recipes. | `GET /recipe/` | `{"recipes": [...recipe data...]}` |
+| **Get Specific Recipe** | `/recipe/:id` | GET | **Public** | - | Retrieves details of a specific recipe by its ID. | `GET /recipe/12345` | `{...recipe data...}` |
+| **Get Recipes by Filter** | `/recipe/` | GET | **Public** | `filter params` | Retrieves recipes based on specified filter criteria (e.g., cuisine, ingredients). | `GET /recipe/?cuisine=italian&vegetarian=true` | `{"recipes": [...recipe data...]}` |
+| **Get User Recipes** | `/recipe/user/` | GET | **Private** | - | Retrieves a list of recipes created by the currently authenticated user. | `GET /recipe/user/` | `{"recipes": [...recipe data...]}` |
+| **Create Recipe** | `/recipe/create` | POST | **Private** | - | Creates a new recipe for the currently authenticated user. | `POST /recipe/create` (with recipe data in request body) | `{"success": true, "data": { ...created recipe data... }}` |
+| **Update Recipe** | `/recipe/:recId/edit` | POST | **Private** | - | Updates an existing recipe for the currently authenticated user. | `POST /recipe/12345/edit` (with updated recipe data in request body) | `{"success": true, "data": { ...updated recipe data... }}` |
+| **Delete Recipe** | `/recipe/:recId/delete` | DELETE | **Private** | - | Deletes an existing recipe for the currently authenticated user. | `DELETE /recipe/12345/delete` | `"recipe deleted"` |
+| **Get Ingredient Prices** | `/price/ingredients` | GET | **Private** | `ingredients` | Retrieves prices for specified ingredients. | `GET /price/ingredients?ingredients=sugar,flour,eggs` | `{...price data...}` |
 
-- [Mongo DB](https://www.mongodb.com/)
-- [Mongoose](https://mongoosejs.com/)
-- [Express](https://expressjs.com/)
+### API Group: Note
 
-### Frontend Application
+**This API Group manages user notes associated with recipes.**
 
-- [React](https://react.dev/)
-- [React router dom](https://reactrouter.com/en/main) -Routing system
-- [Mantine](https://mantine.dev/) -UI Library
-- [Mantine form](https://mantine.dev/form/use-form/) -Form validation
-- [dayjs](https://www.npmjs.com/package/dayjs) - Date formatting
-- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - User Authentication and Sign in
-- [Tabler icons](https://tabler.io/icons)
-- [Embla Carousel](https://www.embla-carousel.com/)
+| Feature | API Path | Method | Access | Query Params | Business Logic | Sample Request | Sample Response |
+|---|---|---|---|---|---|---|---|
+| **Get all notes based on user ID** | `/note/user?id=xxx` | GET | **Private** | `userId` | Retrieves all notes created by the user with the specified `userId`. | `GET /note/user?id=658ac33fcfe93c8dbf43fb28` | `[{"restId": "...", "userId": "...", "date": "...", ...}]` |
+| **Get all relevant notes based on recipe ID** | `/note/recipe?id=xxx` | GET | **Private** | `filter params` (optional) | Retrieves all notes relevant to the recipe with the specified `id`, based on optional filter parameters. | `GET /note/recipe?id=65ce1938aecd6e150c8abf55&date=2024-02-15` | `[{"restId": "...", "userId": "...", "date": "...", ...}]` |
+| **Get note by ID** | `/note/:noteId` | GET | **Private** | - | Retrieves the note with the specified `noteId`. | `GET /note/65b8346fa1234567890abcde` | `{"restId": "...", "userId": "...", "date": "...", ...}` |
+| **Create note** | `/note/create` | POST | **Private** | - | Creates a new note. | `POST /note/create` (with note data in request body) | `{"success": true, "data": { ...created note data... } }` |
+| **Update note detail** | `/note/:noteId` | POST | **Private** | - | Updates the details of an existing note. | `POST /note/65b8346fa1234567890abcde` (with updated note data in request body) | `{"success": true, "data": { ...updated note data... } }` |
+| **Delete note** | `/note/:noteId` | DELETE | **Private** | - | Deletes the note with the specified `noteId`. | `DELETE /note/65b8346fa1234567890abcde` | `{"success": true, "message": "Note deleted"}` |
 
-### PaaS
 
-- [Render](https://render.com/)
+## Coming Soon
 
-## Product Design Documentations
-
-- [User Stories](https://trello.com/b/MXpNhZVq/todaybakewhat)
-- [Wireframe](https://www.figma.com/file/W64GG2WStSC9YhuQr7aYYS/today-bake-what%3F?type=design&node-id=1848-2927&mode=design)
-- [Brandboard](https://drive.google.com/file/d/1QS5OU1KiXaRBT_Ld9ah4mofdfDTLS_80/view?usp=sharing)
-- [Data model ERD](https://app.diagrams.net/#Hjx0906%2Fproj4-backend%2Fmain%2FERD.drawio)
-- [Overview of API](https://docs.google.com/spreadsheets/d/1onAcolqETuYnLY4E1aEvDwoeBZb6KpkL_CIPehhYmws/edit?pli=1#gid=1899189910)
-- [Frontend page structure](https://docs.google.com/spreadsheets/d/1onAcolqETuYnLY4E1aEvDwoeBZb6KpkL_CIPehhYmws/edit?pli=1#gid=0)
-
-## Key Challenges/takeaways
-
-- I had always been curious about how a team could work together to develop an app so am particuarly thankful for the experience this round to work on one from start to "end" all by myself. Through the process, I experienced first hand and gleaned insights on the expected roles and responsibilities of various actors in the team, and how these would have shaped their perpsectives in the app development process. As I stepped in the shoes of each role to develop the app (eg, backend dev, UI/UX designer, product manager), I also gained greater awareness of my strengths and weaknesses, as well as my interests in specific software engineering functions.
-
-- On the technical front, I gained more confidence in my coding skills - evident in my reduced apprehension to self-debug and troubleshoot, and had my first dips in the creation of my own "hook" to fetch and process the external data for the app operations, as well as enabling keyword search through indexing.
-
-### Creation of "fetchEdamama" hook to facilitate fetch of external recipe data
-
-- Besides enabling me to streamline multiple operations which I would have to repeatedly define and call throughout the development of the app, the sense of satisfaction also came from knowing that a fellow SE could benefit from the hook for efficiency gains.
-
-```
-
-function useEdamam() {
-  const sendEdamamRequest = async (url) => {
-    try {
-      const res = await fetch(url);
-      const edamamData = await res.json();
-      if (!res.ok) {
-        throw new Error(
-          edamamData.errorMsg ? edamamData.errorMsg : "Something went wrong"
-        );
-      }
-      return edamamData;
-    } catch (err) {
-      console.error("Error fetching Edamam list:", err);
-    }
-  };
-
-  // no info on lvl of diff, so mapping manually by own standards
-  const derivedLevelofDiff = (ingredientLines) => {
-    const ingredientCount = ingredientLines.length;
-    return ingredientCount >= 5 && ingredientCount <= 10
-      ? "Intermediate"
-      : ingredientCount > 10
-      ? "Advanced"
-      : "Easy";
-  };
-
-  const formattedCategories = (dishCat) => {
-    return dishCat === "biscuits and cookies" ? "Biscuits" : "Bread";
-  };
-
-  const edamamRecpUri = (str) => {
-    const apiUrl = "https://api.edamam.com/api/recipes/v2/";
-    let startIdx = apiUrl.lastIndexOf("/");
-    return str.substring(startIdx + 1, startIdx + 33);
-  };
-
-  return {
-    sendEdamamRequest,
-    derivedLevelofDiff,
-    formattedCategories,
-    edamamRecpUri,
-  };
-}
-
-export default useEdamam;
-
-```
-
-### Enabling keyword search through indexing and regex searches
-
-- This first hand experience demystified the keyword searches I frequently performed as a user. Of particular surprise was the simplicity of its implementation.
-
-```
-
-...
-
-// Apply the text search plugin to the data schemas
-Recipe.schema.plugin(require("mongoose-text-search"));
-User.schema.plugin(require("mongoose-text-search"));
-
-// Create text indexes
-Recipe.schema.index({
-  name: "text",
-  description: "text",
-  "ingredients.name": "text",
-});
-
-User.schema.index({
-  name: "text",
-  email: "text",
-});
-
-...
-
-```
-
-async function getByKeyword(searchTerm) {
-// use regex to match the search term against intended database fields.
-const searchTermRegex = new RegExp(searchTerm, "i"); // 'i' for case-insensitive search
-
-const data = await recipeDao
-.find({
-$or: [
-{ name: { $regex: searchTermRegex } }, // 'i' flag for case-insensitive search
-{ description: { $regex: searchTermRegex } },
-{ "ingredients.name": { $regex: searchTermRegex } },
-{ instructions: { $regex: searchTermRegex } },
-],
-})
-.sort({ name: 1 }); // ascending order
-
-return data;
-}
-
-```
-## Next Steps
-
-- Refine media upload feature
-- Enhance recipe CRUD operations to complement the app function (filters, notes, highlight/comments)
-- Consider responsive design to enhance user experience
-
-## References and Inspirations
-
-- [Food Network](https://www.foodnetwork.com/) - UI/UX for app
-```
+- Refine image schema to facilitate multiple file uploads
+- Adopt use of cloud storage solutions like Amazon s3 to mitigate file size limitations with base64 media handling
