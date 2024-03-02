@@ -1,7 +1,6 @@
 # proj4_backend
 
-This repository contains the backend source code for [todaybakewhat](https://todaybakewhat.onrender.com), designed to .....(app description)
-More info on the application and its design documentations can be found [here](https://github.com/jx0906/proj4-frontend).
+This repository contains the backend source code for [todaybakewhat](https://todaybakewhat.onrender.com), an app designed to to support users in their search for The Bake Recipe of the day from recipe search to purchase of required ingredients and tracking of baking observations/feedback. More info on the application and its design documentations can be found [here](https://github.com/jx0906/proj4-frontend).
 
 - Libraries/Packages/Databases used:
   - [Mongo DB](https://www.mongodb.com/)
@@ -60,4 +59,5 @@ We have organised the APIs by the main feature they are supporting in the applic
 
 ## Coming Soon
 
-To be updated
+- Refine image schema to facilitate multiple file uploads
+- Adopt use of cloud storage solutions like Amazon s3 to mitigate file size limitations with base64 media handling
